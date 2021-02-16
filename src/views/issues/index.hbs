@@ -13,9 +13,9 @@
                 {{#if issuesToView.length}}
                 {{#each issuesToView}}
                 <tr class="issuesTr">
-                    <th><a href="/issues/{{this.id}}">{{this.title}}</a></th>
-                    <td><a href="/issues/{{this.id}}">{{this.description}}</a></td>
-                    <td><a href="/issues/{{this.id}}">{{this.avatar}}</a></td>
+                    <th id="issueName"><a href="/issues/{{this.id}}">{{this.title}}</a></th>
+                    <td id="issueDesc"><a href="/issues/{{this.id}}">{{this.description}}</a></td>
+                    <td><a href="/issues/{{this.id}}"><img src="{{this.avatar}}"/></a></td>
                 </tr>
                 {{/each}}
                 {{else}}

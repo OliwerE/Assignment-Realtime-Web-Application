@@ -177,6 +177,16 @@ transform: scale(0.9);
     text-decoration: none;
 }
 
+#issueName {
+    max-width: 150px;
+    word-wrap: break-word;
+}
+
+#issueDesc {
+    max-width: 500px;
+    word-wrap: break-word;
+}
+
 #main {
     width: 800px;
     min-height: 600px;
