@@ -10,6 +10,6 @@
  */
 export class HomeController {
   index (req, res, next) {
-    res.send('home page!321')
+    res.render('home/index')
   }
 }

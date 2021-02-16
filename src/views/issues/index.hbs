@@ -1,0 +1,29 @@
+<div id="main">
+    <h1 class="pageHeader">Issues</h1>
+    <div id="issuesTableContainer">
+        <table id="issuesTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Avatar</th>
+                </tr>
+            </thead>
+            <tbody>        
+                {{#if viewData.issues.length}}
+                {{#each viewData.issues}}
+                <tr class="issuesTr">
+                    <th><a href="/issues/{{this.id}}">{{this.name}}</a></th>
+                    <td><a href="/issues/{{this.id}}">{{this.createdAt}}</a></td>
+                    <td><a href="/issues/{{this.id}}">{{this.modifiedAt}}</a></td>
+                </tr>
+                {{/each}}
+                {{else}}
+                <tr>
+                    <td>Could not find Issues.</td>
+                </tr>
+                {{/if}}
+                </tbody>
+        </table>
+    </div>
+</div>

@@ -10,6 +10,9 @@
  */
 export class IssuesController {
   index (req, res, next) {
-    res.send('issues page')
+
+    // Get issues from gitlab here!
+
+    res.render('issues/index')
   }
 }
