@@ -10,12 +10,12 @@
                 </tr>
             </thead>
             <tbody>        
-                {{#if viewData.issues.length}}
-                {{#each viewData.issues}}
+                {{#if issuesToView.length}}
+                {{#each issuesToView}}
                 <tr class="issuesTr">
-                    <th><a href="/issues/{{this.id}}">{{this.name}}</a></th>
-                    <td><a href="/issues/{{this.id}}">{{this.createdAt}}</a></td>
-                    <td><a href="/issues/{{this.id}}">{{this.modifiedAt}}</a></td>
+                    <th><a href="/issues/{{this.id}}">{{this.title}}</a></th>
+                    <td><a href="/issues/{{this.id}}">{{this.description}}</a></td>
+                    <td><a href="/issues/{{this.id}}">{{this.avatar}}</a></td>
                 </tr>
                 {{/each}}
                 {{else}}
