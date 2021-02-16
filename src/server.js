@@ -56,7 +56,7 @@ const startApplication = async () => {
   const server = http.createServer(application)
   const io = new Server(server)
 
-  io.on('connection', (socket) => {
+  io.on('connection', (socket) => { // ej i prod bara för att se i logg om socket är ansluten!6
     console.log('a user connected')
 
     socket.on('disconnect', () => {
@@ -96,7 +96,7 @@ const startApplication = async () => {
     }
   })
 
-  application.listen(process.env.PORT, () => {
+  server.listen(process.env.PORT, () => {
     console.log(`Listens for localhost@${process.env.PORT}`)
     console.log('ctrl + c to terminate')
   })
