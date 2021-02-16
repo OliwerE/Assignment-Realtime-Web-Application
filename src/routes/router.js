@@ -7,16 +7,17 @@
 
 import express from 'express'
 import createError from 'http-errors'
-
-import { IssuesController } from '../controllers/issues-controller.js'
+import { router as homeRouter } from './home-router.js'
+import { router as issuesRouter } from './issues-router.js'
+// import { CrudSnippetController } from '../controllers/crud-snippet-controller.js'
 
 export const router = express.Router()
 
-const controller = new IssuesController()
+router.get('/', homeRouter)
 
-router.get('/', controller.index)
+router.use('/issues', issuesRouter)
 
-// If not found
+// All other pages
 router.use('*', (req, res, next) => {
   next(createError(404))
 })

@@ -1,5 +1,5 @@
 /**
- * Module represents the Issues controller.
+ * Module represents the home controller.
  *
  * @author Oliwer Ellréus <oe222ez@student.lnu.se>
  * @version 1.0.0
@@ -8,8 +8,8 @@
 /**
  * 
  */
-export class IssuesController {
+export class HomeController {
   index (req, res, next) {
-    res.send('issues page')
+    res.send('home page!321')
   }
 }
