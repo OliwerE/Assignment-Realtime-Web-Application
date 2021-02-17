@@ -42,6 +42,7 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
     } else if (arg.action === 'reopen') {
       console.log('REOPEN!')
 
+      // obs likt close! skapa funk ist?
       const string = arg.id.toString()
       const selectTr = document.querySelector(`#issue${string} #issueStatus`)
       selectTr.textContent = '' // Removes old status
@@ -51,6 +52,7 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
     } else if (arg.action === 'close') {
       console.log('ISSUE CLOSED!')
 
+      // obs likt reopen! skapa funk ist?
       const string = arg.id.toString()
       const selectTr = document.querySelector(`#issue${string} #issueStatus`)
       selectTr.textContent = '' // Removes old status
@@ -60,6 +62,22 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
     } else if (arg.action === 'update') {
       // verifiera även om något har ändrats.. skickas även när öppnas/stängs issues..
       console.log('UPDATE!')
+
+      const string = arg.id.toString()
+      const issueTitle = document.querySelector(`#issue${string} #issueName a`)
+      const issueDesc = document.querySelector(`#issue${string} #issueDesc a`)
+
+      console.log(issueTitle.textContent)
+      console.log(issueDesc.textContent)
+
+      if (issueTitle.textContent !== arg.title) {
+        issueTitle.textContent = arg.title
+      }
+
+      if (issueDesc.textContent !== arg.desc) {
+        issueDesc.textContent = arg.desc
+      }
+
     } else {
       console.error('Something went wrong! (issue action)')
     }
