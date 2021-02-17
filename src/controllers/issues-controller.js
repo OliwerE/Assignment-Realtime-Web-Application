@@ -30,7 +30,7 @@ fetchIssues(url) {
 
   async index (req, res, next) { // fix this. then use fetchIssues instead
     let issues
-    await fetch('https://gitlab.lnu.se/api/v4/projects/12822/issues', {
+    await fetch(process.env.GITLAB_REPO_URL, {
       method: 'get',
       headers: {
         'PRIVATE-TOKEN': process.env.GITLAB_TOKEN

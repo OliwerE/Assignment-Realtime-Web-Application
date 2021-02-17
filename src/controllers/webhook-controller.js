@@ -11,46 +11,38 @@ export class WebhookController {
     if (req.headers['x-gitlab-token'] !== process.env.GITLAB_HOOK_SECRET) {
       res.status(403).send('Forbidden')
     } else {
-      console.log('auth!')
       next()
     }
   }
 
   index (req, res, next) {
-    console.log('i hook index')
-    
-    //console.log(req.body.object_attributes)
-
     req.body = {
-      description: req.body.object_attributes.title,
+      title: req.body.object_attributes.title,
+      desc: req.body.object_attributes.description,
+      state: req.body.object_attributes.state,
+      action: req.body.object_attributes.action,
+      id: req.body.object_attributes.id,
+      temp: req.body.object_attributes,
       done: false
     }
-    
-
-    console.log('börjar next')
     next()
   }
 
   postFromWebhook(req, res, next) {
-    console.log('Got post from gitlab webhook!')
+    // console.log(req.body.object_attributes.test)
+    // console.log(req.body.description) // namn på issue
 
-    //console.log(req.body.object_attributes.test)
+    console.log(req.body.temp)
 
-    console.log(req.body.description) // namn på issue
-
-    
+    console.log('emit!!')
     res.io.emit('issue', { // sends data to clients using websocket
-      desc: req.body.description // Sends title of issue to all clients (when modified/created or moved open-closed)
+      title: req.body.title, // Sends title of issue to all clients (when modified/created or moved open-closed)
+      desc: req.body.desc,
+      state: req.body.state, // opened or closed
+      action: req.body.action,
+      id: req.body.id
     })
-    
-    
 
     res.status(200).send('Post confirmed')
   }
 }
-
-/* Skicka data till websocket
-  res.io.emit('issue', {
-    desc: 'test'
-  })
-*/
