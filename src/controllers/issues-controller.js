@@ -48,7 +48,8 @@ fetchIssues(url) {
       let tempObj = {
         title: issues[i].title,
         description: issues[i].description,
-        avatar: issues[i].author.avatar_url
+        avatar: issues[i].author.avatar_url,
+        id: issues[i].id
       }
 
       issuesToView.push(tempObj)
