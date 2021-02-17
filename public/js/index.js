@@ -16,7 +16,21 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       // Adds table row into table
       const newIssue = issueTemplate.content.cloneNode(true)
 
+      // add id
+      newIssue.querySelector('tr').setAttribute('id', arg.id)
+
       // Add content
+      const name = newIssue.querySelector('#issueName')
+      const nameTextNode = document.createTextNode(arg.title)
+      name.appendChild(nameTextNode)
+
+      if (arg.desc !== null) {
+        const desc = newIssue.querySelector('#issueDesc')
+        const descTextNode = document.createTextNode(arg.desc)
+        desc.appendChild(descTextNode)
+      }
+
+      newIssue.querySelector('#gravatar').setAttribute('src', '#') // fixa url, skickas inte från webhook!
 
       table.insertBefore(newIssue, table.firstChild)
 
