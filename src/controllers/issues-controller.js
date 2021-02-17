@@ -49,7 +49,8 @@ fetchIssues(url) {
         title: issues[i].title,
         description: issues[i].description,
         avatar: issues[i].author.avatar_url,
-        id: issues[i].id
+        id: issues[i].id,
+        status: issues[i].state
       }
 
       issuesToView.push(tempObj)

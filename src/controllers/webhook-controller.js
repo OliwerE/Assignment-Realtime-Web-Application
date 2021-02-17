@@ -40,7 +40,7 @@ export class WebhookController {
       avatar: req.body.avatar,
       title: req.body.title, // Sends title of issue to all clients (when modified/created or moved open-closed)
       desc: req.body.desc,
-      state: req.body.state, // opened or closed
+      status: req.body.state, // opened or closed
       action: req.body.action,
       id: req.body.id
     })

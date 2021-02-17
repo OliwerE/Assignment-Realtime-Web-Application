@@ -32,13 +32,31 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
 
       newIssue.querySelector('#gravatar').setAttribute('src', arg.avatar)
 
+      const status = newIssue.querySelector('#issueStatus')
+      const statusTextNode = document.createTextNode(arg.status)
+      status.appendChild(statusTextNode)
+
       table.insertBefore(newIssue, table.firstChild)
 
       console.log(table)
     } else if (arg.action === 'reopen') {
       console.log('REOPEN!')
+
+      const string = arg.id.toString()
+      const selectTr = document.querySelector(`#issue${string} #issueStatus`)
+      selectTr.textContent = '' // Removes old status
+      const newStatusTextNode = document.createTextNode(arg.status)
+      selectTr.appendChild(newStatusTextNode)
+
     } else if (arg.action === 'close') {
       console.log('ISSUE CLOSED!')
+
+      const string = arg.id.toString()
+      const selectTr = document.querySelector(`#issue${string} #issueStatus`)
+      selectTr.textContent = '' // Removes old status
+      const newStatusTextNode = document.createTextNode(arg.status)
+      selectTr.appendChild(newStatusTextNode)
+
     } else if (arg.action === 'update') {
       // verifiera även om något har ändrats.. skickas även när öppnas/stängs issues..
       console.log('UPDATE!')

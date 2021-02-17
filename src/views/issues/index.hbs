@@ -7,15 +7,17 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Avatar</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>        
                 {{#if issuesToView.length}}
                 {{#each issuesToView}}
-                <tr class="issuesTr" id="{{this.id}}">
+                <tr class="issuesTr" id="issue{{this.id}}">
                     <th id="issueName"><a href="#">{{this.title}}</a></th>
                     <td id="issueDesc"><a href="#">{{this.description}}</a></td>
                     <td><a href="#"><img src="{{this.avatar}}"/></a></td>
+                    <td><a id="issueStatus" href="#">{{this.status}}</a></td>
                 </tr>
                 {{/each}}
                 {{else}}
@@ -31,6 +33,7 @@
                 <th ><a id="issueName" href="/issues/#"></a></th>
                 <td ><a id="issueDesc" href="/issues/#"></a></td>
                 <td><a href="/issues/#"><img id="gravatar" src="#"/></a></td>
+                <td><a id="issueStatus" href="#"></a></td>             
              </tr>
         </template>
     </div>
