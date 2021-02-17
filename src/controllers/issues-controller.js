@@ -60,3 +60,4 @@ fetchIssues(url) {
     res.render('issues/index', { issuesToView })
   }
 }
+
