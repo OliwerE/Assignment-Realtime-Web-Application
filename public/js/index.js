@@ -30,7 +30,7 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
         desc.appendChild(descTextNode)
       }
 
-      newIssue.querySelector('#gravatar').setAttribute('src', '#') // fixa url, skickas inte från webhook!
+      newIssue.querySelector('#gravatar').setAttribute('src', arg.avatar)
 
       table.insertBefore(newIssue, table.firstChild)
 

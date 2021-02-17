@@ -17,6 +17,7 @@ export class WebhookController {
 
   index (req, res, next) {
     req.body = {
+      avatar: req.body.user.avatar_url,
       title: req.body.object_attributes.title,
       desc: req.body.object_attributes.description,
       state: req.body.object_attributes.state,
@@ -36,6 +37,7 @@ export class WebhookController {
 
     console.log('emit!!')
     res.io.emit('issue', { // sends data to clients using websocket
+      avatar: req.body.avatar,
       title: req.body.title, // Sends title of issue to all clients (when modified/created or moved open-closed)
       desc: req.body.desc,
       state: req.body.state, // opened or closed
