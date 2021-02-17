@@ -38,11 +38,12 @@ export class WebhookController {
 
     console.log(req.body.description) // namn på issue
 
-    /*
+    
     res.io.emit('issue', { // sends data to clients using websocket
-      desc: 'test'
+      desc: req.body.description // Sends title of issue to all clients (when modified/created or moved open-closed)
     })
-    */
+    
+    
 
     res.status(200).send('Post confirmed')
   }
