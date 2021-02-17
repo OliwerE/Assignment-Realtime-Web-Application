@@ -36,14 +36,14 @@ fetchIssues(url) {
         'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
       }
     }).then(res => res.json()).then(json => {
-      //console.log(json)
+      // console.log(json)
       issues = json
     }).catch(err => {
       console.log(err)
       throw new Error('An error has occurred (getScraper)')
     })
 
-   const issuesToView = []
+    const issuesToView = []
   for (let i = 0; i < issues.length; i++) {
       let tempObj = {
         title: issues[i].title,
@@ -54,7 +54,7 @@ fetchIssues(url) {
       issuesToView.push(tempObj)
       tempObj = {}
   }
-    
+
     console.log(issuesToView)
 
     res.render('issues/index', { issuesToView })

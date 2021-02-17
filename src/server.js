@@ -24,7 +24,14 @@ const startApplication = async () => {
   const application = express()
   const fullDirName = dirname(fileURLToPath(import.meta.url))
 
-  application.use(helmet()) // Security http headers
+  application.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'img-src': ['self', 'secure.gravatar.com'] // Allows user avatar
+      }
+    }
+  })) // Security http headers
 
   application.use(logger('dev'))
 
