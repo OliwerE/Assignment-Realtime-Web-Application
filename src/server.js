@@ -42,6 +42,7 @@ const startApplication = async () => {
   application.set('view engine', 'hbs')
   application.set('views', join(fullDirName, 'views'))
   application.use(express.urlencoded({ extended: false }))
+  application.use(express.json()) // Body parsing for webhook
   application.use(express.static(join(fullDirName, '..', 'public')))
 
   const sessionOptions = {
