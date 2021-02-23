@@ -13,7 +13,7 @@ export const router = express.Router()
 
 const controller = new IssuesController()
 
-router.get('/', controller.index)
+router.get('/', (req, res, next) => controller.index(req, res, next))
 
 // All other pages
 router.use('*', (req, res, next) => next(createError(404)))

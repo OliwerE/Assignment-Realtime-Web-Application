@@ -11,27 +11,10 @@ import fetch from 'node-fetch'
  * 
  */
 export class IssuesController {
-fetchIssues(url) {
-  console.log('Starts fetch')
-  /*
-  await fetch(url, {
-    method: 'get',
-    headers: {
-    }
-  }).then(response => {
-    console.log(response)
-    // return response.text()
-  }).catch(err => {
-    console.log(err)
-    throw new Error('An error has occurred (getScraper)')
-  })
-  */
-}
-
-  async index (req, res, next) { // fix this. then use fetchIssues instead
+  async fetchIssues(url) {
     let issues
     let numberOfPages = 1
-    await fetch(process.env.GITLAB_REPO_URL, {
+    await fetch(url, {
       method: 'get',
       headers: {
         'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
@@ -40,34 +23,41 @@ fetchIssues(url) {
       numberOfPages = res.headers.raw()['x-total-pages']
       return res
     }).then(res => res.json()).then(json => {
-      // console.log(json)
       issues = json
     }).catch(err => {
       console.log(err)
     })
 
+    return [issues, numberOfPages]
+  }
+
+  async index (req, res, next) { // fix this. then use fetchIssues instead
+
+
+    const firstFetch = await this.fetchIssues(process.env.GITLAB_REPO_URL) // Array with number of pages & array of issues
+
     // console.log(issues)
 
+    console.log(firstFetch)
 
-    const pages = parseInt(numberOfPages[0])
+    //const pages = parseInt(numberOfPages[0])
 
-    console.log(pages)
+    //console.log(pages)
 
-    if (pages > 1) {
+    let issues = firstFetch[0]
+    const pages = firstFetch[1]
+
+
+    if (pages > 1) { // OBS SAMMA ISSUES 2ggr!!
       for (let i = 1; i < pages; i++) {
         console.log('i nr: ', i)
         const url = process.env.GITLAB_REPO_URL + '?page=' + (i + 1)
-        await fetch(url, {
-          method: 'get',
-          headers: {
-            'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
-          }
-        }).then(res => res.json()).then(json => {
-          // console.log(typeof json)
-          issues = [...issues, ...json]
-        }).catch(err => {
-          console.log(err)
-        })
+
+        const newIssuePage = await this.fetchIssues(url)
+
+        console.log(newIssuePage)
+
+        issues = [...issues, ...newIssuePage[0]]
       }
     }
 

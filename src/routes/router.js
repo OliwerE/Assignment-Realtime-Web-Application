@@ -12,7 +12,7 @@ import { router as webhookRouter } from './webhook-router.js'
 
 export const router = express.Router()
 
-router.use('/', issuesRouter)
+router.get('/', issuesRouter)
 
 router.use('/webhook', webhookRouter)
 
