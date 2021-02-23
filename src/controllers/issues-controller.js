@@ -114,10 +114,21 @@ export class IssuesController {
 
   }
 
-  getCloseIssue (req, res, next) {
-    console.log('CLOSE PAGE!')
+  async getCloseIssue (req, res, next) {
+    console.log('CLOSE PAGE!', req.params.id)
 
-    res.render('issues/close')
+    const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
+
+    const issue = await this.fetchIssues(url)
+
+    console.log(issue[0][0])
+
+    const viewData = {
+      title: issue[0][0].title,
+      iid: issue[0][0].iid
+    }
+
+    res.render('issues/close', { viewData })
   }
 }
 
