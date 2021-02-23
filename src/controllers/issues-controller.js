@@ -130,5 +130,36 @@ export class IssuesController {
 
     res.render('issues/close', { viewData })
   }
+
+  async postCloseIssue (req, res, next) {
+    console.log('POST987!')
+
+    console.log(req.body.confirmBox)
+
+    if (req.body.confirmBox === 'on') {
+
+      const closeUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=close'
+
+      await fetch(closeUrl, { // använd fetch metoden ist?
+        method: 'put',
+        headers: {
+          'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+
+
+      // close issue
+    } else {
+      const error = new Error('Internal Server Error') // Byt error? = när anv tar sig runt confirmbox!
+      error.status = 500
+      next(error)
+    }
+
+    res.redirect('./')
+  }
 }
 
