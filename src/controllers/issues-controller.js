@@ -113,5 +113,11 @@ export class IssuesController {
 
 
   }
+
+  getCloseIssue (req, res, next) {
+    console.log('CLOSE PAGE!')
+
+    res.render('issues/close')
+  }
 }
 

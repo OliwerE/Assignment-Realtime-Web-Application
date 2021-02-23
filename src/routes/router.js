@@ -12,7 +12,7 @@ import { router as webhookRouter } from './webhook-router.js'
 
 export const router = express.Router()
 
-router.get('/', (req, res, next) => res.send('Temp'))
+router.get('/', (req, res, next) => res.send(`<a href="/issues">Go to issues</a>`))
 
 router.use('/issues', issuesRouter)
 
