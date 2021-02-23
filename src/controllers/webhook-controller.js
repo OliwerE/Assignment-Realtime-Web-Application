@@ -23,6 +23,7 @@ export class WebhookController {
       state: req.body.object_attributes.state,
       action: req.body.object_attributes.action,
       id: req.body.object_attributes.id,
+      iid: req.body.object_attributes.iid,
       temp: req.body.object_attributes,
       done: false
     }
@@ -42,7 +43,8 @@ export class WebhookController {
       desc: req.body.desc,
       status: req.body.state, // opened or closed
       action: req.body.action,
-      id: req.body.id
+      id: req.body.id,
+      iid: req.body.iid
     })
 
     res.status(200).send('Post confirmed')

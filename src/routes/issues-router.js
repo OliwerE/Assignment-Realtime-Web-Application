@@ -14,6 +14,7 @@ export const router = express.Router()
 const controller = new IssuesController()
 
 router.get('/', (req, res, next) => controller.index(req, res, next))
+router.get('/issue/:id', (req, res, next) => controller.getIssuePage(req, res, next))
 
 // All other pages
 router.use('*', (req, res, next) => next(createError(404)))

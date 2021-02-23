@@ -70,6 +70,7 @@ export class IssuesController {
         description: issues[i].description,
         avatar: issues[i].author.avatar_url,
         id: issues[i].id,
+        iid: issues[i].iid,
         status: issues[i].state
       }
 
@@ -80,6 +81,37 @@ export class IssuesController {
     // console.log(issuesToView)
 
     res.render('issues/index', { issuesToView })
+  }
+
+  async getIssuePage (req, res, next) {
+    try {
+      console.log('GET ISSUE!!', req.params.id)
+      const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
+  
+      const issue = await this.fetchIssues(url)
+  
+      console.log(issue[0][0])
+  
+      const viewData = {
+        title: issue[0][0].title,
+        description: issue[0][0].description,
+        // avatar: issue[0].author.avatar_url,
+        // id: issues[i].id,
+        iid: issue[0][0].iid,
+        status: issue[0][0].state
+      }
+  
+      console.log(viewData)
+  
+      res.render('issues/issue', { viewData })
+    } catch (err) {
+      const error = new Error('Not Found')
+      error.status = 404
+      next(error)
+
+    }
+
+
   }
 }
 

@@ -14,10 +14,10 @@
                 {{#if issuesToView.length}}
                 {{#each issuesToView}}
                 <tr class="issuesTr" id="issue{{this.id}}">
-                    <th id="issueName"><a href="#">{{this.title}}</a></th>
-                    <td id="issueDesc"><a href="#">{{this.description}}</a></td>
-                    <td><a href="#"><img src="{{this.avatar}}"/></a></td>
-                    <td><a id="issueStatus" href="#">{{this.status}}</a></td>
+                    <th id="issueName"><a href="/issues/issue/{{this.iid}}">{{this.title}}</a></th>
+                    <td id="issueDesc"><a href="/issues/issue/{{this.iid}}">{{this.description}}</a></td>
+                    <td><a href="/issues/issue/{{this.iid}}"><img src="{{this.avatar}}"/></a></td>
+                    <td><a id="issueStatus" href="/issues/issue/{{this.iid}}">{{this.status}}</a></td>
                 </tr>
                 {{/each}}
                 {{else}}
@@ -30,10 +30,10 @@
 
         <template id="issueTemplate">
             <tr class="issuesTr">
-                <th ><a id="issueName" href="/issues/#"></a></th>
-                <td ><a id="issueDesc" href="/issues/#"></a></td>
-                <td><a href="/issues/#"><img id="gravatar" src="#"/></a></td>
-                <td><a id="issueStatus" href="#"></a></td>             
+                <th ><a id="issueName" href="/issues/issue/{{this.iid}}"></a></th>
+                <td ><a id="issueDesc" href="/issues/issue/{{this.iid}}"></a></td>
+                <td><a href="/issues/issue/{{this.iid}}"><img id="gravatar" src="#"/></a></td>
+                <td><a id="issueStatus" href="/issues/issue/{{this.iid}}"></a></td>             
              </tr>
         </template>
     </div>
