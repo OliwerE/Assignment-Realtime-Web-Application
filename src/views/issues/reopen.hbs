@@ -1,0 +1,11 @@
+<div id="main">
+    <h1 class="pageHeader">Reopen issue: {{viewData.title}}</h1>
+    <form id="closeIssue" method="post" action="/issues/issue/{{viewData.iid}}/reopen">
+        <div class="form-group">
+            <label for="confirmBox">Confirm:</label>
+            <input type="checkbox" name="confirmBox" required="required">
+        </div>
+        <br>
+        <button type="submit">Reopen Issue</button>
+    </form>
+</div>

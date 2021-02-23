@@ -20,5 +20,8 @@ router.get('/issue/:id', (req, res, next) => controller.getIssuePage(req, res, n
 router.get('/issue/:id/close', (req, res, next) => controller.getCloseIssue(req, res, next))
 router.post('/issue/:id/close', (req, res, next) => controller.postCloseIssue(req, res, next))
 
+router.get('/issue/:id/reopen', (req, res, next) => controller.getReopenIssue(req, res, next))
+router.post('/issue/:id/reopen', (req, res, next) => controller.postReopenIssue(req, res, next))
+
 // All other pages
 router.use('*', (req, res, next) => next(createError(404)))

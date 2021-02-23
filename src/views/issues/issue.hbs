@@ -6,7 +6,9 @@
         <p>{{viewData.iid}}</p>
         <p>{{viewData.status}}</p>
 
-        <a href="./{{viewData.iid}}/close">Close issue</a>
+        <a href="/issues/issue/{{viewData.iid}}/close">Close issue</a>
+        <br>
+        <a href="/issues/issue/{{viewData.iid}}/reopen">Reopen issue</a>
     {{/if}}
 
 </div>

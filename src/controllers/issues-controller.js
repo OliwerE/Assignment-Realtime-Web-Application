@@ -161,5 +161,53 @@ export class IssuesController {
 
     res.redirect('./')
   }
+
+  async getReopenIssue (req, res, next) {
+    console.log('get reopen!')
+    console.log(req.params.id)
+
+    const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
+
+    const issue = await this.fetchIssues(url) // liknar close issue! skapa delad metod?
+
+    console.log(issue[0][0])
+
+    const viewData = {
+      title: issue[0][0].title,
+      iid: issue[0][0].iid
+    }
+
+    res.render('issues/reopen', { viewData })
+  }
+
+  async postReopenIssue (req, res, next) {
+    console.log('post reopen!')
+    console.log(req.body.confirmBox)
+
+    if (req.body.confirmBox === 'on') { // OBS NEDAN LIKNAR POST CLOSE ISSUE! slå ihop?
+
+      const closeUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=reopen'
+
+      await fetch(closeUrl, {
+        method: 'put',
+        headers: {
+          'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+
+
+      // close issue
+    } else {
+      const error = new Error('Internal Server Error') // Byt error? = när anv tar sig runt confirmbox!
+      error.status = 500
+      next(error)
+    }
+
+    res.redirect('./')
+  }
 }
 
