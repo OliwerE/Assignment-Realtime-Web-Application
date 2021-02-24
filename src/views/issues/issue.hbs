@@ -8,9 +8,9 @@
 
         {{#if viewData.status}}
 
-        <a href="/issues/issue/{{viewData.iid}}/close">Close issue</a>
+        <a id="issueOpenClose" href="/issues/issue/{{viewData.iid}}/close">Close issue</a>
         {{else}}
-        <a href="/issues/issue/{{viewData.iid}}/reopen">Reopen issue</a>
+        <a id="issueOpenClose" href="/issues/issue/{{viewData.iid}}/reopen">Reopen issue</a>
         {{/if}}
     {{/if}}
 
