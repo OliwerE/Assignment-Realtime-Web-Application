@@ -36,7 +36,22 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       const statusTextNode = document.createTextNode(arg.status)
       status.appendChild(statusTextNode)
 
+      // Add url
+
+      // FIXA MED QUERYSELECTOR ALL!
+     newIssue.querySelector('#issueName').setAttribute('href', `/issues/issue/${arg.iid}`)
+     newIssue.querySelector('#issueDesc').setAttribute('href', `/issues/issue/${arg.iid}`)
+     newIssue.querySelector('#issueGravatar').setAttribute('href', `/issues/issue/${arg.iid}`)
+     newIssue.querySelector('#issueStatus').setAttribute('href', `/issues/issue/${arg.iid}`)
+     
+     // url.setAttribute('href', '/issues/test')
+      // url.setAttribute('href', `/issues/issue/${arg.iid}`)
+
+      console.log('iid!: ', arg.iid)
+
       table.insertBefore(newIssue, table.firstChild)
+
+
 
       console.log(table)
     } else if (arg.action === 'reopen') {
@@ -67,8 +82,8 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       const issueTitle = document.querySelector(`#issue${string} #issueName a`)
       const issueDesc = document.querySelector(`#issue${string} #issueDesc a`)
 
-      console.log(issueTitle.textContent)
-      console.log(issueDesc.textContent)
+      // console.log(issueTitle.textContent)
+      // console.log(issueDesc.textContent)
 
       if (issueTitle.textContent !== arg.title) {
         issueTitle.textContent = arg.title

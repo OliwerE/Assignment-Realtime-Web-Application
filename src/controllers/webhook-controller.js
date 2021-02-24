@@ -23,7 +23,6 @@ export class WebhookController {
       state: req.body.object_attributes.state,
       action: req.body.object_attributes.action,
       id: req.body.object_attributes.id,
-      iid: req.body.object_attributes.iid,
       temp: req.body.object_attributes,
       done: false
     }
@@ -34,7 +33,7 @@ export class WebhookController {
     // console.log(req.body.object_attributes.test)
     // console.log(req.body.description) // namn på issue
 
-    console.log(req.body.temp)
+    // console.log(req.body.temp)
 
     console.log('emit!!')
     res.io.emit('issue', { // sends data to clients using websocket
@@ -44,9 +43,8 @@ export class WebhookController {
       status: req.body.state, // opened or closed
       action: req.body.action,
       id: req.body.id,
-      iid: req.body.iid
+      iid: req.body.temp.iid
     })
-
     res.status(200).send('Post confirmed')
   }
 }
