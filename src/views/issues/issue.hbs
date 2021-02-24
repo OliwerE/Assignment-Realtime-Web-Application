@@ -1,14 +1,17 @@
 <div id="main">
     {{#if viewData}}
-        <h1 class="pageHeader">{{viewData.title}}</h1>
-        <img src="{{viewData.avatar}}"/>
+        <h1 class="pageHeader">Issue: {{viewData.title}}</h1>
+        <!--<img src="{{viewData.avatar}}"/>
         <p>{{viewData.description}}</p>
         <p>{{viewData.iid}}</p>
-        <p>{{viewData.status}}</p>
+        <p>{{viewData.status}}</p> -->
+
+        {{#if viewData.status}}
 
         <a href="/issues/issue/{{viewData.iid}}/close">Close issue</a>
-        <br>
+        {{else}}
         <a href="/issues/issue/{{viewData.iid}}/reopen">Reopen issue</a>
+        {{/if}}
     {{/if}}
 
 </div>

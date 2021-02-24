@@ -45,7 +45,7 @@ const startApplication = async () => {
   application.use(express.json()) // Body parsing for webhook
   application.use(express.static(join(fullDirName, '..', 'public')))
 
-  const sessionOptions = {
+  const sessionOptions = { // TA BORT SESSION
     name: process.env.SESSION_NAME,
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -57,7 +57,7 @@ const startApplication = async () => {
     }
   }
 
-  application.use(session(sessionOptions))
+  application.use(session(sessionOptions)) // TA BORT SESSION
 
   // Websocket
 

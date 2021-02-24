@@ -94,11 +94,15 @@ export class IssuesController {
   
       const viewData = {
         title: issue[0][0].title,
-        description: issue[0][0].description,
+        // description: issue[0][0].description,
         // avatar: issue[0].author.avatar_url,
         // id: issues[i].id,
-        iid: issue[0][0].iid,
-        status: issue[0][0].state
+        iid: issue[0][0].iid
+        // status: issue[0][0].state
+      }
+
+      if (issue[0][0].state === 'opened') {
+        viewData.status = issue[0][0].state
       }
   
       console.log(viewData)
