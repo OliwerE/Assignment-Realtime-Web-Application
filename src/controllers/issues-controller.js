@@ -45,38 +45,44 @@ export class IssuesController {
    * @param {Function} next - Next function.
    */
   async index (req, res, next) {
-    const firstFetch = await this.fetchIssues(process.env.GITLAB_REPO_URL) // Array with number of pages & array of issues
+    try {
+      const firstFetch = await this.fetchIssues(process.env.GITLAB_REPO_URL) // Array with number of pages & array of issues
 
-    // console.log(issues)
-    // console.log(firstFetch)
+      // console.log(issues)
+      // console.log(firstFetch)
 
-    let issues = firstFetch[0]
-    const pages = firstFetch[1]
+      let issues = firstFetch[0]
+      const pages = firstFetch[1]
 
-    if (pages > 1) {
-      for (let i = 1; i < pages; i++) {
-        const url = process.env.GITLAB_REPO_URL + '?page=' + (i + 1)
-        const newIssuePage = await this.fetchIssues(url)
-        issues = [...issues, ...newIssuePage[0]]
-      }
-    }
-
-    const issuesToView = []
-    for (let i = 0; i < issues.length; i++) {
-      let tempObj = {
-        title: issues[i].title,
-        description: issues[i].description,
-        avatar: issues[i].author.avatar_url,
-        id: issues[i].id,
-        iid: issues[i].iid,
-        status: issues[i].state
+      if (pages > 1) {
+        for (let i = 1; i < pages; i++) {
+          const url = process.env.GITLAB_REPO_URL + '?page=' + (i + 1)
+          const newIssuePage = await this.fetchIssues(url)
+          issues = [...issues, ...newIssuePage[0]]
+        }
       }
 
-      issuesToView.push(tempObj)
-      tempObj = {}
-    }
+      const issuesToView = []
+      for (let i = 0; i < issues.length; i++) {
+        let tempObj = {
+          title: issues[i].title,
+          description: issues[i].description,
+          avatar: issues[i].author.avatar_url,
+          id: issues[i].id,
+          iid: issues[i].iid,
+          status: issues[i].state
+        }
 
-    res.render('issues/index', { issuesToView })
+        issuesToView.push(tempObj)
+        tempObj = {}
+      }
+
+      res.render('issues/index', { issuesToView })
+    } catch (err) {
+      const error = new Error('Internal Server Error')
+      error.status = 500
+      next(error)
+    }
   }
 
   /**
@@ -119,20 +125,26 @@ export class IssuesController {
    * @param {Function} next - Next function.
    */
   async getCloseIssue (req, res, next) {
-    console.log('CLOSE PAGE!', req.params.id)
+    try {
+      console.log('CLOSE PAGE!', req.params.id)
 
-    const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
+      const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
 
-    const issue = await this.fetchIssues(url)
+      const issue = await this.fetchIssues(url)
 
-    console.log(issue[0][0])
+      console.log(issue[0][0])
 
-    const viewData = {
-      title: issue[0][0].title,
-      iid: issue[0][0].iid
+      const viewData = {
+        title: issue[0][0].title,
+        iid: issue[0][0].iid
+      }
+
+      res.render('issues/close', { viewData })
+    } catch (err) {
+      const error = new Error('Internal Server Error')
+      error.status = 500
+      next(error)
     }
-
-    res.render('issues/close', { viewData })
   }
 
   /**
@@ -143,25 +155,31 @@ export class IssuesController {
    * @param {Function} next - Next function.
    */
   async postCloseIssue (req, res, next) {
-    if (req.body.confirmBox === 'on') {
-      const closeUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=close'
+    try {
+      if (req.body.confirmBox === 'on') {
+        const closeUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=close'
 
-      await fetch(closeUrl, { // använd fetch metoden ist?
-        method: 'put',
-        headers: {
-          'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
-        }
-      }).then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
-    } else {
-      const error = new Error('Internal Server Error') // Byt error? = när anv tar sig runt confirmbox!
+        await fetch(closeUrl, { // använd fetch metoden ist?
+          method: 'put',
+          headers: {
+            'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
+          }
+        }).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        const error = new Error('Internal Server Error') // Byt error? = när anv tar sig runt confirmbox!
+        error.status = 500
+        next(error)
+      }
+      res.redirect('./')
+    } catch (err) {
+      const error = new Error('Internal Server Error')
       error.status = 500
       next(error)
     }
-    res.redirect('./')
   }
 
   /**
@@ -172,21 +190,27 @@ export class IssuesController {
    * @param {Function} next - Next function.
    */
   async getReopenIssue (req, res, next) {
-    console.log('get reopen!')
-    console.log(req.params.id)
+    try {
+      console.log('get reopen!')
+      console.log(req.params.id)
 
-    const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
+      const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
 
-    const issue = await this.fetchIssues(url) // liknar close issue! skapa delad metod?
+      const issue = await this.fetchIssues(url) // liknar close issue! skapa delad metod?
 
-    console.log(issue[0][0])
+      console.log(issue[0][0])
 
-    const viewData = {
-      title: issue[0][0].title,
-      iid: issue[0][0].iid
+      const viewData = {
+        title: issue[0][0].title,
+        iid: issue[0][0].iid
+      }
+
+      res.render('issues/reopen', { viewData })
+    } catch (err) {
+      const error = new Error('Internal Server Error')
+      error.status = 500
+      next(error)
     }
-
-    res.render('issues/reopen', { viewData })
   }
 
   /**
@@ -197,24 +221,30 @@ export class IssuesController {
    * @param {Function} next - Next function.
    */
   async postReopenIssue (req, res, next) {
-    if (req.body.confirmBox === 'on') { // OBS NEDAN LIKNAR POST CLOSE ISSUE! slå ihop?
-      const closeUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=reopen'
+    try {
+      if (req.body.confirmBox === 'on') { // OBS NEDAN LIKNAR POST CLOSE ISSUE! slå ihop?
+        const closeUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=reopen'
 
-      await fetch(closeUrl, {
-        method: 'put',
-        headers: {
-          'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
-        }
-      }).then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
-    } else {
-      const error = new Error('Internal Server Error') // Byt error? = när anv tar sig runt confirmbox!
+        await fetch(closeUrl, {
+          method: 'put',
+          headers: {
+            'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
+          }
+        }).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        const error = new Error('Internal Server Error') // Byt error? = när anv tar sig runt confirmbox!
+        error.status = 500
+        next(error)
+      }
+      res.redirect('./')
+    } catch (err) {
+      const error = new Error('Internal Server Error')
       error.status = 500
       next(error)
     }
-    res.redirect('./')
   }
 }
