@@ -20,14 +20,10 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       newIssue.querySelector('tr').setAttribute('id', arg.id)
 
       // Add content
-      const name = newIssue.querySelector('#issueName')
-      const nameTextNode = document.createTextNode(arg.title)
-      name.appendChild(nameTextNode)
+      const name = newIssue.querySelector('#issueName a').textContent = arg.title
 
       if (arg.desc !== null) {
-        const desc = newIssue.querySelector('#issueDesc')
-        const descTextNode = document.createTextNode(arg.desc)
-        desc.appendChild(descTextNode)
+        const desc = newIssue.querySelector('#issueDesc').textContent = arg.desc
       }
 
       newIssue.querySelector('#gravatar').setAttribute('src', arg.avatar)
@@ -39,15 +35,18 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       // Add url
 
       // FIXA MED QUERYSELECTOR ALL!
-     newIssue.querySelector('#issueName').setAttribute('href', `/issues/issue/${arg.iid}`)
-     newIssue.querySelector('#issueDesc').setAttribute('href', `/issues/issue/${arg.iid}`)
-     newIssue.querySelector('#issueGravatar').setAttribute('href', `/issues/issue/${arg.iid}`)
-     newIssue.querySelector('#issueStatus').setAttribute('href', `/issues/issue/${arg.iid}`)
-     
+    newIssue.querySelector('#issueName').setAttribute('href', `/issues/issue/${arg.iid}`)
+    newIssue.querySelector('#issueDesc').setAttribute('href', `/issues/issue/${arg.iid}`)
+    newIssue.querySelector('#issueGravatar').setAttribute('href', `/issues/issue/${arg.iid}`)
+    newIssue.querySelector('#issueStatus').setAttribute('href', `/issues/issue/${arg.iid}`)
+    
      // url.setAttribute('href', '/issues/test')
       // url.setAttribute('href', `/issues/issue/${arg.iid}`)
 
       console.log('iid!: ', arg.iid)
+
+      // Add id
+      newIssue.querySelector('tr').setAttribute('id', `issue${arg.id}`)
 
       table.insertBefore(newIssue, table.firstChild)
 

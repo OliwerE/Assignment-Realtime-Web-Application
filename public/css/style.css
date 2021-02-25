@@ -187,6 +187,10 @@ transform: scale(0.9);
     word-wrap: break-word;
 }
 
+#issueDesc a {
+    text-align: left;
+}
+
 #main {
     width: 800px;
     min-height: 600px;
