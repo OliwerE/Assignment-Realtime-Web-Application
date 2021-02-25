@@ -23,7 +23,7 @@ const issueTable = function () {
 
       // Add description
       if (arg.desc !== null) { // If an description exists
-        newIssue.querySelector('#issueDesc').textContent = arg.desc
+        newIssue.querySelector('#issueDescNewText').textContent = arg.desc
       }
 
       // Add gravatar url
@@ -46,7 +46,7 @@ const issueTable = function () {
     } else if (arg.action === 'update') {
       const string = arg.id.toString()
       const issueTitle = document.querySelector(`#issue${string} #issueName a`)
-      const issueDesc = document.querySelector(`#issue${string} #issueDesc a`)
+      const issueDesc = document.querySelector(`#issue${string} #issueDesc a pre`)
 
       if (issueTitle.textContent !== arg.title) { // If name is changed
         issueTitle.textContent = arg.title

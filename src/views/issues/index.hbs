@@ -16,7 +16,7 @@
                 {{#each issuesToView}}
                 <tr class="issuesTr" id="issue{{this.id}}">
                     <td id="issueName"><a href="./issues/issue/{{this.iid}}">{{this.title}}</a></td>
-                    <td id="issueDesc"><a href="./issues/issue/{{this.iid}}">{{this.description}}</a></td>
+                    <td id="issueDesc"><a href="./issues/issue/{{this.iid}}"><pre>{{this.description}}</pre></a></td>
                     <td><a href="./issues/issue/{{this.iid}}"><img src="{{this.avatar}}"/></a></td>
                     <td><a id="issueStatus" href="./issues/issue/{{this.iid}}">{{this.status}}</a></td>
                 </tr>
@@ -32,7 +32,7 @@
         <template id="issueTemplate">
             <tr class="issuesTr">
                 <td id="issueName"><a id="newIssueLink1" href=""></a></td> <!-- kan bara uppdatera via websocket när td har id ist för a taggen! -->
-                <td id="issueDesc"><a id="newIssueLink2" href=""></a></td> <!-- kan bara uppdatera via websocket när td har id ist för a taggen! -->
+                <td id="issueDesc"><a id="newIssueLink2" href=""><pre id="issueDescNewText"></pre></a></td> <!-- kan bara uppdatera via websocket när td har id ist för a taggen! -->
                 <td><a id="issueGravatar" href=""><img id="gravatar" src="#"/></a></td>
                 <td><a id="issueStatus" href=""></a></td>             
              </tr>
