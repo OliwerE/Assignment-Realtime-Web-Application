@@ -48,9 +48,6 @@ const issueTable = function () {
       const issueTitle = document.querySelector(`#issue${string} #issueName a`)
       const issueDesc = document.querySelector(`#issue${string} #issueDesc a`)
 
-      // console.log(issueTitle.textContent)
-      // console.log(issueDesc.textContent)
-
       if (issueTitle.textContent !== arg.title) { // If name is changed
         issueTitle.textContent = arg.title
       }
