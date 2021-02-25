@@ -2,7 +2,10 @@ import '../socket.io/socket.io.js'
 
 const issueTemplate = document.querySelector('#issueTemplate')
 
-if (issueTemplate) { // if issue template exist, the websocket connection is opened.
+/**
+ * Runs websocket on the issue list page.
+ */
+const issueTable = function () {
   console.log('Issues page!') // ta bort sen!
   const socketConnection = window.io()
 
@@ -20,10 +23,10 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       newIssue.querySelector('tr').setAttribute('id', arg.id)
 
       // Add content
-      const name = newIssue.querySelector('#issueName a').textContent = arg.title
+      newIssue.querySelector('#issueName a').textContent = arg.title
 
       if (arg.desc !== null) {
-        const desc = newIssue.querySelector('#issueDesc').textContent = arg.desc
+        newIssue.querySelector('#issueDesc').textContent = arg.desc
       }
 
       newIssue.querySelector('#gravatar').setAttribute('src', arg.avatar)
@@ -35,12 +38,12 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       // Add url
 
       // FIXA MED QUERYSELECTOR ALL!
-    newIssue.querySelector('#issueName').setAttribute('href', `/issues/issue/${arg.iid}`)
-    newIssue.querySelector('#issueDesc').setAttribute('href', `/issues/issue/${arg.iid}`)
-    newIssue.querySelector('#issueGravatar').setAttribute('href', `/issues/issue/${arg.iid}`)
-    newIssue.querySelector('#issueStatus').setAttribute('href', `/issues/issue/${arg.iid}`)
-    
-     // url.setAttribute('href', '/issues/test')
+      newIssue.querySelector('#issueName').setAttribute('href', `/issues/issue/${arg.iid}`)
+      newIssue.querySelector('#issueDesc').setAttribute('href', `/issues/issue/${arg.iid}`)
+      newIssue.querySelector('#issueGravatar').setAttribute('href', `/issues/issue/${arg.iid}`)
+      newIssue.querySelector('#issueStatus').setAttribute('href', `/issues/issue/${arg.iid}`)
+
+      // url.setAttribute('href', '/issues/test')
       // url.setAttribute('href', `/issues/issue/${arg.iid}`)
 
       console.log('iid!: ', arg.iid)
@@ -49,9 +52,6 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       newIssue.querySelector('tr').setAttribute('id', `issue${arg.id}`)
 
       table.insertBefore(newIssue, table.firstChild)
-
-
-
       console.log(table)
     } else if (arg.action === 'reopen') {
       console.log('REOPEN!')
@@ -62,7 +62,6 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       selectTr.textContent = '' // Removes old status
       const newStatusTextNode = document.createTextNode(arg.status)
       selectTr.appendChild(newStatusTextNode)
-
     } else if (arg.action === 'close') {
       console.log('ISSUE CLOSED!')
 
@@ -72,7 +71,6 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       selectTr.textContent = '' // Removes old status
       const newStatusTextNode = document.createTextNode(arg.status)
       selectTr.appendChild(newStatusTextNode)
-
     } else if (arg.action === 'update') {
       // verifiera även om något har ändrats.. skickas även när öppnas/stängs issues..
       console.log('UPDATE!')
@@ -91,13 +89,14 @@ if (issueTemplate) { // if issue template exist, the websocket connection is ope
       if (issueDesc.textContent !== arg.desc) {
         issueDesc.textContent = arg.desc
       }
-
     } else {
       console.error('Something went wrong! (issue action)')
     }
-
-    
   })
+}
+
+if (issueTemplate) { // Runs websocket if the issue template exist on the current webpage.
+  issueTable()
 } else {
   console.log('not issues page!') // ta bort sen!
 }
