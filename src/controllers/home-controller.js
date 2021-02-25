@@ -17,6 +17,12 @@ export class HomeController {
    * @param {Function} next - Next function.
    */
   index (req, res, next) {
-    res.render('home/index')
+    try {
+      res.render('home/index')
+    } catch (err) {
+      const error = new Error('Internal Server Error')
+      error.status = 500
+      next(error)
+    }
   }
 }
