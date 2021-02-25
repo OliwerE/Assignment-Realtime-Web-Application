@@ -1,6 +1,6 @@
 <div id="main">
     <h1 class="pageHeader">Close issue: {{viewData.title}}</h1>
-    <form id="closeIssue" method="post" action="/issues/issue/{{viewData.iid}}/close">
+    <form id="closeIssue" class="closeOpenForm" method="post" action="/issues/issue/{{viewData.iid}}/close">
         <div class="form-group">
             <label for="confirmBox">Confirm:</label>
             <input type="checkbox" name="confirmBox" required="required">

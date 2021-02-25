@@ -13,7 +13,7 @@ export const router = express.Router()
 
 const controller = new WebhookController()
 
-router.post('/issues', controller.authorize, controller.index, controller.postFromWebhook) // lägg till authorize och verifiera webhook token!
+router.post('/issues', controller.authorize, controller.index, controller.postFromWebhook)
 
 // All other pages
 router.use('*', (req, res, next) => next(createError(404)))
