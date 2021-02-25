@@ -45,32 +45,19 @@ const startApplication = async () => {
   application.use(express.json()) // Body parsing for webhook
   application.use(express.static(join(fullDirName, '..', 'public')))
 
-  const sessionOptions = { // TA BORT SESSION
+  const sessionOptions = {
     name: process.env.SESSION_NAME,
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // One day
-      sameSite: 'strict'
-    }
+    saveUninitialized: false
   }
 
-  application.use(session(sessionOptions)) // TA BORT SESSION
+  application.use(session(sessionOptions))
 
   // Websocket
 
   const server = http.createServer(application)
   const io = new Server(server)
-
-  io.on('connection', (socket) => { // ej i prod bara för att se i logg om socket är ansluten!6
-    console.log('a user connected')
-
-    socket.on('disconnect', () => {
-      console.log('User disconnected')
-    })
-  })
 
   // Removes flash message after one response
   application.use((req, res, next) => {

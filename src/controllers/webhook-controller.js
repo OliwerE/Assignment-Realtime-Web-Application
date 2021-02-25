@@ -5,9 +5,18 @@
  * @version 1.0.0
  */
 
+/**
+ * Class represents a webhook controller.
+ */
 export class WebhookController {
-  authorize(req, res, next) {
-    // Checks if post request comes from gitlab
+  /**
+   * Method checks if the post request comes from gitlab.
+   *
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - Next function.
+   */
+  authorize (req, res, next) {
     if (req.headers['x-gitlab-token'] !== process.env.GITLAB_HOOK_SECRET) {
       res.status(403).send('Forbidden')
     } else {
@@ -15,6 +24,13 @@ export class WebhookController {
     }
   }
 
+  /**
+   * Method modifies the request body.
+   *
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - Next function.
+   */
   index (req, res, next) {
     req.body = {
       avatar: req.body.user.avatar_url,
@@ -29,13 +45,14 @@ export class WebhookController {
     next()
   }
 
-  postFromWebhook(req, res, next) {
-    // console.log(req.body.object_attributes.test)
-    // console.log(req.body.description) // namn på issue
-
-    // console.log(req.body.temp)
-
-    console.log('emit!!')
+  /**
+   * Method confirms webhook from gitlab and sends the data to all websocket clients.
+   *
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - Next function.
+   */
+  postFromWebhook (req, res, next) {
     res.io.emit('issue', { // sends data to clients using websocket
       avatar: req.body.avatar,
       title: req.body.title, // Sends title of issue to all clients (when modified/created or moved open-closed)
