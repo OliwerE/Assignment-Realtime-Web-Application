@@ -18,7 +18,7 @@ export class WebhookController {
    */
   authorize (req, res, next) {
     try {
-      if (req.headers['x-gitlab-token'] !== process.env.GITLAB_HOOK_SECRET) {
+      if (req.headers['x-gitlab-token'] !== process.env.GITLAB_HOOK_SECRET) { // If gitlab token does not equal server secret
         res.status(403).send('Forbidden')
       } else {
         next()
@@ -39,7 +39,7 @@ export class WebhookController {
    */
   index (req, res, next) {
     try {
-      req.body = {
+      req.body = { // Create request body with wanted data
         avatar: req.body.user.avatar_url,
         title: req.body.object_attributes.title,
         desc: req.body.object_attributes.description,
@@ -66,16 +66,16 @@ export class WebhookController {
    */
   postFromWebhook (req, res, next) {
     try {
-      res.io.emit('issue', { // sends data to clients using websocket
+      res.io.emit('issue', { // Sends new issue change to all connected clients using websocket
         avatar: req.body.avatar,
-        title: req.body.title, // Sends title of issue to all clients (when modified/created or moved open-closed)
+        title: req.body.title,
         desc: req.body.desc,
-        status: req.body.state, // opened or closed
+        status: req.body.state,
         action: req.body.action,
         id: req.body.id,
         iid: req.body.temp.iid
       })
-      res.status(200).send('Post confirmed')
+      res.status(200).send('Post confirmed') // Confirms post to gitlab
     } catch (err) {
       const error = new Error('Internal Server Error')
       error.status = 500

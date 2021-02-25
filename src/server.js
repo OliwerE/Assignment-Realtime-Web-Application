@@ -57,13 +57,10 @@ const startApplication = async () => {
   application.use(session(sessionOptions))
 
   // Websocket
-
   const server = http.createServer(application)
   const io = new Server(server)
 
-  console.log(baseURL)
-
-  // Removes flash message after one response
+  // Called before route
   application.use((req, res, next) => {
     // base url for views
     res.locals.baseURL = baseURL // fixa!

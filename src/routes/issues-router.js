@@ -13,13 +13,17 @@ export const router = express.Router()
 
 const controller = new IssuesController()
 
+// All issues
 router.get('/', (req, res, next) => controller.index(req, res, next))
 
+// Issue page
 router.get('/issue/:id', (req, res, next) => controller.getIssuePage(req, res, next))
 
+// Close issue
 router.get('/issue/:id/close', (req, res, next) => controller.getCloseIssue(req, res, next))
 router.post('/issue/:id/close', (req, res, next) => controller.postCloseIssue(req, res, next))
 
+// Reopen issue
 router.get('/issue/:id/reopen', (req, res, next) => controller.getReopenIssue(req, res, next))
 router.post('/issue/:id/reopen', (req, res, next) => controller.postReopenIssue(req, res, next))
 

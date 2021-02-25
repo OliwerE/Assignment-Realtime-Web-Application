@@ -13,6 +13,7 @@ export const router = express.Router()
 
 const controller = new WebhookController()
 
+// Webhook post request
 router.post('/issues', controller.authorize, controller.index, controller.postFromWebhook)
 
 // All other pages

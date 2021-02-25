@@ -18,8 +18,8 @@ export class IssuesController {
    * @returns {Array} - An array with the fetched issues and number of pages.
    */
   async fetchIssues (url) {
-    let issues
-    let numberOfPages = 1
+    let issues // Issues from request
+    let numberOfPages = 1 // Number of pages with issues
     await fetch(url, {
       method: 'get',
       headers: {
@@ -29,7 +29,7 @@ export class IssuesController {
       numberOfPages = res.headers.raw()['x-total-pages']
       return res
     }).then(res => res.json()).then(json => {
-      issues = json
+      issues = json // Recieved issues
     }).catch(err => {
       console.log(err)
     })
@@ -46,24 +46,21 @@ export class IssuesController {
    */
   async index (req, res, next) {
     try {
-      const firstFetch = await this.fetchIssues(process.env.GITLAB_REPO_URL) // Array with number of pages & array of issues
-
-      // console.log(issues)
-      // console.log(firstFetch)
+      const firstFetch = await this.fetchIssues(process.env.GITLAB_REPO_URL) // Array with number of pages & first issue page
 
       let issues = firstFetch[0]
       const pages = firstFetch[1]
 
-      if (pages > 1) {
-        for (let i = 1; i < pages; i++) {
+      if (pages > 1) { // If more than one page of issues
+        for (let i = 1; i < pages; i++) { // Fetch all pages
           const url = process.env.GITLAB_REPO_URL + '?page=' + (i + 1)
           const newIssuePage = await this.fetchIssues(url)
-          issues = [...issues, ...newIssuePage[0]]
+          issues = [...issues, ...newIssuePage[0]] // Adds page into an array of all recieved issues
         }
       }
 
       const issuesToView = []
-      for (let i = 0; i < issues.length; i++) {
+      for (let i = 0; i < issues.length; i++) { // Extracts wanted data from each issue
         let tempObj = {
           title: issues[i].title,
           description: issues[i].description,
@@ -94,12 +91,8 @@ export class IssuesController {
    */
   async getIssuePage (req, res, next) {
     try {
-      console.log('GET ISSUE!!', req.params.id)
       const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
-
       const issue = await this.fetchIssues(url)
-
-      console.log(issue[0][0])
 
       const viewData = {
         title: issue[0][0].title,
@@ -107,7 +100,7 @@ export class IssuesController {
       }
 
       if (issue[0][0].state === 'opened') {
-        viewData.status = issue[0][0].state
+        viewData.status = issue[0][0].state // Used to change between open / close issue button
       }
       res.render('issues/issue', { viewData })
     } catch (err) {
@@ -126,13 +119,8 @@ export class IssuesController {
    */
   async getCloseIssue (req, res, next) {
     try {
-      console.log('CLOSE PAGE!', req.params.id)
-
       const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
-
       const issue = await this.fetchIssues(url)
-
-      console.log(issue[0][0])
 
       const viewData = {
         title: issue[0][0].title,
@@ -159,18 +147,16 @@ export class IssuesController {
       if (req.body.confirmBox === 'on') {
         const closeUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=close'
 
-        await fetch(closeUrl, { // använd fetch metoden ist?
+        await fetch(closeUrl, { // Closes issue on gitlab
           method: 'put',
           headers: {
             'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
           }
-        }).then(res => {
-          console.log(res)
         }).catch(err => {
           console.log(err)
         })
       } else {
-        const error = new Error('Internal Server Error') // Byt error? = när anv tar sig runt confirmbox!
+        const error = new Error('Internal Server Error')
         error.status = 500
         next(error)
       }
@@ -191,14 +177,8 @@ export class IssuesController {
    */
   async getReopenIssue (req, res, next) {
     try {
-      console.log('get reopen!')
-      console.log(req.params.id)
-
       const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
-
-      const issue = await this.fetchIssues(url) // liknar close issue! skapa delad metod?
-
-      console.log(issue[0][0])
+      const issue = await this.fetchIssues(url)
 
       const viewData = {
         title: issue[0][0].title,
@@ -222,21 +202,19 @@ export class IssuesController {
    */
   async postReopenIssue (req, res, next) {
     try {
-      if (req.body.confirmBox === 'on') { // OBS NEDAN LIKNAR POST CLOSE ISSUE! slå ihop?
-        const closeUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=reopen'
+      if (req.body.confirmBox === 'on') {
+        const reopenUrl = process.env.GITLAB_REPO_URL + '/' + req.params.id + '?state_event=reopen'
 
-        await fetch(closeUrl, {
+        await fetch(reopenUrl, { // Reopens issue on gitlab
           method: 'put',
           headers: {
             'PRIVATE-TOKEN': process.env.GITLAB_TOKEN
           }
-        }).then(res => {
-          console.log(res)
         }).catch(err => {
           console.log(err)
         })
       } else {
-        const error = new Error('Internal Server Error') // Byt error? = när anv tar sig runt confirmbox!
+        const error = new Error('Internal Server Error')
         error.status = 500
         next(error)
       }
