@@ -38,10 +38,10 @@ const issueTable = function () {
       // Add url
 
       // FIXA MED QUERYSELECTOR ALL!
-      newIssue.querySelector('#issueName').setAttribute('href', `/issues/issue/${arg.iid}`)
-      newIssue.querySelector('#issueDesc').setAttribute('href', `/issues/issue/${arg.iid}`)
-      newIssue.querySelector('#issueGravatar').setAttribute('href', `/issues/issue/${arg.iid}`)
-      newIssue.querySelector('#issueStatus').setAttribute('href', `/issues/issue/${arg.iid}`)
+      newIssue.querySelector('#newIssueLink1').setAttribute('href', `./issues/issue/${arg.iid}`)
+      newIssue.querySelector('#newIssueLink2').setAttribute('href', `./issues/issue/${arg.iid}`)
+      newIssue.querySelector('#issueGravatar').setAttribute('href', `./issues/issue/${arg.iid}`)
+      newIssue.querySelector('#issueStatus').setAttribute('href', `./issues/issue/${arg.iid}`)
 
       // url.setAttribute('href', '/issues/test')
       // url.setAttribute('href', `/issues/issue/${arg.iid}`)

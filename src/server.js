@@ -24,6 +24,8 @@ const startApplication = async () => {
   const application = express()
   const fullDirName = dirname(fileURLToPath(import.meta.url))
 
+  const baseURL = process.env.BASE_URL || '/'
+
   application.use(helmet({
     contentSecurityPolicy: {
       directives: {
@@ -59,15 +61,12 @@ const startApplication = async () => {
   const server = http.createServer(application)
   const io = new Server(server)
 
+  console.log(baseURL)
+
   // Removes flash message after one response
   application.use((req, res, next) => {
-    if (req.session.flash) {
-      res.locals.flash = req.session.flash
-      delete req.session.flash
-    }
-
     // base url for views
-    // res.locals.baseURL = baseURL // fixa!
+    res.locals.baseURL = baseURL // fixa!
 
     // add socket io to response object.
     res.io = io
