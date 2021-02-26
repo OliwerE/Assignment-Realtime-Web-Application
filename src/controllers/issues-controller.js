@@ -100,7 +100,6 @@ export class IssuesController {
    * @param {string} state - If issue should be opened or closed.
    */
   async openedOrClosed (req, res, next, state) {
-    console.log(state)
     try {
       const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
       const issue = await this.fetchIssues(url)
