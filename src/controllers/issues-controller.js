@@ -92,6 +92,34 @@ export class IssuesController {
   }
 
   /**
+   * Method checks if method is opened or closed.
+   *
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - Next function.
+   * @param {string} state - If issue should be opened or closed.
+   */
+  async openedOrClosed (req, res, next, state) {
+    console.log(state)
+    try {
+      const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
+      const issue = await this.fetchIssues(url)
+
+      if (issue[0][0].state === state) { // If issue state equals state.
+        next()
+      } else {
+        const error = new Error('Not found')
+        error.status = 404
+        next(error)
+      }
+    } catch (err) {
+      const error = new Error('Internal Server Error')
+      error.status = 500
+      next(error)
+    }
+  }
+
+  /**
    * Method renders a confirm close issue page.
    *
    * @param {object} req - The request object.
