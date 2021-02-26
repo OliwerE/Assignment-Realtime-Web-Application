@@ -33,16 +33,29 @@ const issueTable = function () {
       newIssue.querySelector('#issueStatus').textContent = arg.status
 
       // Add issue url
-      newIssue.querySelector('#newIssueLink1').setAttribute('href', `./issues/issue/${arg.iid}`)
-      newIssue.querySelector('#newIssueLink2').setAttribute('href', `./issues/issue/${arg.iid}`)
-      newIssue.querySelector('#issueGravatar').setAttribute('href', `./issues/issue/${arg.iid}`)
-      newIssue.querySelector('#issueStatus').setAttribute('href', `./issues/issue/${arg.iid}`)
+      newIssue.querySelector('#newIssueLink1').setAttribute('href', `./issues/issue/${arg.iid}/close`)
+      newIssue.querySelector('#newIssueLink2').setAttribute('href', `./issues/issue/${arg.iid}/close`)
+      newIssue.querySelector('#issueGravatar').setAttribute('href', `./issues/issue/${arg.iid}/close`)
+      newIssue.querySelector('#issueStatus').setAttribute('href', `./issues/issue/${arg.iid}/close`)
 
       table.insertBefore(newIssue, table.firstChild) // Adds new issue in the table
     } else if (arg.action === 'reopen' || arg.action === 'close') { // When issue is closed or reopened
       // Changes issue status (opened or closed)
       const string = arg.id.toString()
       document.querySelector(`#issue${string} #issueStatus`).textContent = arg.status
+
+      let url
+      // Changes url to open or close form
+      if (arg.action === 'close') {
+        url = `./issues/issue/${arg.iid}/reopen`
+      } else if (arg.action === 'reopen') {
+        url = `./issues/issue/${arg.iid}/close`
+      }
+
+      const issueTd = document.querySelectorAll(`#issue${string} td a`)
+      for (let i = 0; i < 4; i++) {
+        issueTd[i].setAttribute('href', url)
+      }
     } else if (arg.action === 'update') {
       const string = arg.id.toString()
       const issueTitle = document.querySelector(`#issue${string} #issueName a`)

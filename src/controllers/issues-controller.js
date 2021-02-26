@@ -61,13 +61,22 @@ export class IssuesController {
 
       const issuesToView = []
       for (let i = 0; i < issues.length; i++) { // Extracts wanted data from each issue
+        let url
+
+        if (issues[i].state === 'opened') {
+          url = `./issues/issue/${issues[i].iid}/close`
+        } else if (issues[i].state === 'closed') {
+          url = `./issues/issue/${issues[i].iid}/reopen`
+        }
+
         let tempObj = {
           title: issues[i].title,
           description: issues[i].description,
           avatar: issues[i].author.avatar_url,
           id: issues[i].id,
           iid: issues[i].iid,
-          status: issues[i].state
+          status: issues[i].state,
+          url: url
         }
 
         issuesToView.push(tempObj)
@@ -78,34 +87,6 @@ export class IssuesController {
     } catch (err) {
       const error = new Error('Internal Server Error')
       error.status = 500
-      next(error)
-    }
-  }
-
-  /**
-   * Method gets a specific issue and renders a page with all edit alternatives.
-   *
-   * @param {object} req - The request object.
-   * @param {object} res - The response object.
-   * @param {Function} next - Next function.
-   */
-  async getIssuePage (req, res, next) {
-    try {
-      const url = process.env.GITLAB_REPO_URL + '?iids[]=' + req.params.id
-      const issue = await this.fetchIssues(url)
-
-      const viewData = {
-        title: issue[0][0].title,
-        iid: issue[0][0].iid
-      }
-
-      if (issue[0][0].state === 'opened') {
-        viewData.status = issue[0][0].state // Used to change between open / close issue button
-      }
-      res.render('issues/issue', { viewData })
-    } catch (err) {
-      const error = new Error('Not Found')
-      error.status = 404
       next(error)
     }
   }
@@ -160,7 +141,7 @@ export class IssuesController {
         error.status = 500
         next(error)
       }
-      res.redirect('./')
+      res.redirect('../../')
     } catch (err) {
       const error = new Error('Internal Server Error')
       error.status = 500
@@ -218,7 +199,7 @@ export class IssuesController {
         error.status = 500
         next(error)
       }
-      res.redirect('./')
+      res.redirect('../../')
     } catch (err) {
       const error = new Error('Internal Server Error')
       error.status = 500
