@@ -6,7 +6,6 @@
  */
 
 import express from 'express'
-import session from 'express-session'
 import hbs from 'express-hbs'
 import helmet from 'helmet'
 import logger from 'morgan'
@@ -46,15 +45,6 @@ const startApplication = async () => {
   application.use(express.urlencoded({ extended: false }))
   application.use(express.json()) // Body parsing for webhook
   application.use(express.static(join(fullDirName, '..', 'public')))
-
-  const sessionOptions = {
-    name: process.env.SESSION_NAME,
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-  }
-
-  application.use(session(sessionOptions))
 
   // Websocket
   const server = http.createServer(application)
