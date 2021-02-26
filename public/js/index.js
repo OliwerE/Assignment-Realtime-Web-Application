@@ -6,7 +6,8 @@ const issueTemplate = document.querySelector('#issueTemplate')
  * Runs websocket on the issue list page.
  */
 const issueTable = function () {
-  const socketConnection = window.io() // Creates a websocket connection
+  const socketPath = document.querySelector('base').getAttribute('href') + 'socket.io'
+  const socketConnection = window.io('/', { path: socketPath }) // Creates a websocket connection
 
   socketConnection.on('issue', arg => { // When an issue is recieved
     if (arg.action === 'open') { // If new issue
