@@ -83,7 +83,6 @@ export class IssuesController {
         tempObj = {}
       }
 
-      console.log(issuesToView.length)
       res.render('issues/index', { issuesToView })
     } catch (err) {
       const error = new Error('Internal Server Error')
