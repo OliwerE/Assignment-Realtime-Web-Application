@@ -33,10 +33,10 @@ const issueTable = function () {
       newIssue.querySelector('#issueStatus').textContent = arg.status
 
       // Add issue url
-      newIssue.querySelector('#newIssueLink1').setAttribute('href', `./issues/issue/${arg.iid}/close`)
-      newIssue.querySelector('#newIssueLink2').setAttribute('href', `./issues/issue/${arg.iid}/close`)
-      newIssue.querySelector('#issueGravatar').setAttribute('href', `./issues/issue/${arg.iid}/close`)
-      newIssue.querySelector('#issueStatus').setAttribute('href', `./issues/issue/${arg.iid}/close`)
+      const td = newIssue.querySelectorAll('td a')
+      for (let i = 0; i < 4; i++) {
+        td[i].setAttribute('href', `./issues/issue/${arg.iid}/close`)
+      }
 
       table.insertBefore(newIssue, table.firstChild) // Adds new issue in the table
     } else if (arg.action === 'reopen' || arg.action === 'close') { // When issue is closed or reopened
